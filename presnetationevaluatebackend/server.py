@@ -1,3 +1,5 @@
+from Evaluator.ContextDetection import SlidesDetector
+
 from flask import Flask, request  
 from flask_cors import CORS
 
@@ -22,6 +24,7 @@ def upload_file():
     if file:
         # Process the file here (e.g., saving it)
         file.save(f"./uploaded_video/{file.filename}")
+        SlidesDetector.slidesDetector(file)
         return {"message": f"{file.filename} uploaded successfully"}, 200
     return {"error": "An error occurred during file upload"}, 500
 

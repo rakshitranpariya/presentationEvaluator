@@ -1,0 +1,33 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+
+  html, body {
+    width: 100%;
+    height: 100%;
+  }
+ .header{
+    background: aqua;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    
+ }
+  .Logo{
+    position: relative;
+        height: 50%;
+        width: 50px;
+    }
+    .LogoTitle{
+    
+    }
+    .SignUp{
+    
+    }
+    .LoginIn{
+        
+    }

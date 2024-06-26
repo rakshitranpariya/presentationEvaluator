@@ -35,7 +35,7 @@ const Main = () => {
             <form onSubmit={handleSubmit}>
                 <h1>React File Upload</h1>
                 <input type="file" onChange={handleFileChange} />
-                <button type="submit">Upload</button>
+                <button type="submit" class="btn btn-primary">Upload</button>
             </form>
         </div>
        

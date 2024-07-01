@@ -6,28 +6,77 @@
   }
   
 
-  html, body {
+  html, body,HomeBody {
     width: 100%;
     height: 100%;
+    position : relative;
+    display: block;
   }
+  
+  .Logo{
+    margin-left: 1%;
+    position: relative;
+    justify-content :space-between;
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    width: 28%;
+  }
+
  .header{
-    background: aqua;
-    height: 50px;
+    border-radius: 0px 0px 25px 25px;
+    background: rgb(255, 255, 255);
+    height: 100px;
     width: 100%;
     display: flex;
-    
- }
-  .Logo{
+    align-items: center;
     position: relative;
-        height: 50%;
-        width: 50px;
+  }
+  .LogoImage{
+    height: 60px;
+    padding: 5px;
+    border-radius: 20px;
+    background-color:rgb(0, 0, 0) ;
+    margin-right: 5px;
     }
     .LogoTitle{
+      margin:0px;
+     
+    }
     
+    .MainBanner{
+      display: flex;
+      height: 493px;
+     width: 100%;
+      background-color: rgb(255, 255, 255);
+      justify-content: center;
+      align-items: center;
+      position:relative;
     }
-    .SignUp{
+    .BannerButtons{
+      margin: 10px;
+    }
     
+    .ButtonDiv{
+      width: 100%;
+      justify-content: center ;
+      align-content: center;
+      display: flex;
     }
-    .LoginIn{
-        
+    .Footer{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: black;
+
     }
+    .FooterText{
+      color: aliceblue;
+    }
+
+  .LeftOptions{
+    display: flex;
+    justify-content: space-between;
+    }
+  
+    

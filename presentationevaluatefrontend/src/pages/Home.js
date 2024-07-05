@@ -2,21 +2,12 @@ import React from "react";
 import "./Home.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../images/pewhite.png'; // Adjust the path according to your project structure
-
+import Header from '../components/header/header';
+import Footer from '../components/footer/footer';
 const Home = () => {
     return (
         <div class="HomeBody">
-            <div className="header">
-                <div className="Logo">
-                    <img src={logo} className="LogoImage" alt="Logo"></img>
-                    <p className="LogoTitle h3 text-black fw-bold"> Presentation Evaluator </p>
-                </div>
-                <div class="LeftOptions">
-                    <p class="MenuOption">Explore</p>
-                    <p class="MenuOption">About Us</p>
-                    <p class="MenuOption"> Contact Us </p>
-                </div>
-            </div>
+            <Header />
             <div className="MainBanner">
                 <div class="ButtonDiv">
                     <button className="btn btn-dark BannerButtons ">Start Evaluating</button>
@@ -24,11 +15,8 @@ const Home = () => {
                 </div>
             </div>
                 
-            <div class="Footer">
-                    <p class="FooterText">All rights reserved.</p>
-            </div>
+         <Footer />
              
-
         </div>
         
     );

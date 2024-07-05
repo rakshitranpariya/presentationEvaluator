@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+#ignoring the directory
+/presentationevaluatebackend/output/
+
 # production
 /build
 

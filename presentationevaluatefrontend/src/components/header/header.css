@@ -1,0 +1,56 @@
+
+
+* {
+    margin: 0;
+    padding: 0;
+
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin:0;
+  }
+
+  .header{
+    border-radius: 0px 0px 25px 25px;
+    height: 90px;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .Logo{
+   
+    position: relative;
+  
+    align-items: center;
+    display: flex;
+    width: 400px;
+  }
+
+  .LogoImage{
+    height: 60px;
+    margin: 10px;
+    border-radius: 20px;
+    background-color:rgb(0, 0, 0) ;
+
+    }
+     .LogoTitle{
+        margin:10px; 
+    }
+
+    .MenuOptionGroup{
+        display: flex;
+        margin-right: 15px;
+
+        align-items: center;
+        justify-content: space-between;
+    
+      }
+
+    .MenuOption {
+        margin: 0px 15px; 
+      }

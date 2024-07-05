@@ -7,6 +7,7 @@ import img2pdf
 import glob
 import argparse
 
+
 ############# Define constants
 
 OUTPUT_SLIDES_DIR = f"./output"
@@ -110,7 +111,7 @@ def detect_unique_screenshots(video_path, output_folder_screenshot_path):
 
 def initialize_output_folder(video_path):
     '''Clean the output folder if already exists'''
-    output_folder_screenshot_path = f"{OUTPUT_SLIDES_DIR}/{video_path.rsplit('/')[-1].split('.')[0]}"
+    output_folder_screenshot_path = f"{OUTPUT_SLIDES_DIR}/slides"
 
     if os.path.exists(output_folder_screenshot_path):
         shutil.rmtree(output_folder_screenshot_path)
@@ -140,14 +141,14 @@ def slidesDetector(file):
     output_folder_screenshot_path = initialize_output_folder(video_path)
     detect_unique_screenshots(video_path, output_folder_screenshot_path)
 
-    print('Please Manually verify screenshots and delete duplicates')
-    while True:
-        choice = input("Press y to continue and n to terminate")
-        choice = choice.lower().strip()
-        if choice in ['y', 'n']:
-            break
-        else:
-            print('please enter a valid choice')
+    # print('Please Manually verify screenshots and delete duplicates')
+    # while True:
+    #     choice = input("Press y to continue and n to terminate")
+    #     choice = choice.lower().strip()
+    #     if choice in ['y', 'n']:
+    #         break
+    #     else:
+    #         print('please enter a valid choice')
 
-    if choice == 'y':
-        convert_screenshots_to_pdf(output_folder_screenshot_path)
+    # if choice == 'y':
+    #     convert_screenshots_to_pdf(output_folder_screenshot_path)

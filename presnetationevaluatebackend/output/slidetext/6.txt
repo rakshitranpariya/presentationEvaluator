@@ -1,0 +1,26 @@
+Related Work:
+
+Researches related to breast cancer prediction has been carried out in
+
+the past some of which are:
+
+1] Octa Heriana, Indah Soesanti. Tumor size classification of breast thermal image using fuzzy C-
+
+Means algorithm. 2015 International Conference on Radar, Antenna, Microwave, Electronics and
+
+Telecommunications (ICRAMET), IEEE, 2015.
+
+2] Naresh Khuriwal, Nidhi Mishra. Breast Cancer Diagnosis Using Deep Learning Algorithm. 2018
+
+International Conference on Advances in Computing, Communication Control and Networking
+
+(ICACCCN), IEEE, 2018.
+
+The reason to carry out our own research was to:
+
+¢ Increase the accuracy of predictions as this can lead to saving a
+patient at an early stage.
+
+* Reduce the complexity of the model so that prediction model i .
+inexpensive ,time and complexity wise, to construct. Hence,
+increasing the efficiency of prediction. | *] |

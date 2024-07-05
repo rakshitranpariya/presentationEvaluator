@@ -1,0 +1,7 @@
+Accuracies:
+[@]Logistic Regression Training Accuracy: @.9906103286384976
+[1]Decision Tree Classifier Training Accuracy: 1.0
+[@]Logistic Regression Test Accuracy: @.9440559449559441
+[1]Decision Tree Classifier Test Accuracy: @.951048951048951
+Accuracies of model
+»

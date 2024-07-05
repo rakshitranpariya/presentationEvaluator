@@ -1,0 +1,14 @@
+Agenda:
+* Introduction
+* Objective
+* Related Work
+* Proposed Model
+* Methodology
+* Logistic Regression and Decision Tree
+¢ Data Processing
+* Heat map
+¢ Affected and Normal Tumors comparison
+* Pair Plot of diagnosis with other features
+¢ Accuracies
+* Result afi
+* Conclusion L2 |

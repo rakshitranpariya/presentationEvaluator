@@ -1,0 +1,18 @@
+References:
+
+[5] Breast Cancer Early diagnosis and Screening (WHO). Available:
+https://www.who.int/cancer/prevention/diagnosis-screening/breast-cancer/en/
+[6] Vijayakumar, T. (2019). Neural network analysis for tumor investigation
+and cancer prediction. Journal of Electronics, 1(02), 89-98.
+
+[7]Breast Cancer (Wikipedia) Available:
+https://en.wikipedia.org/wiki/Breast_cancer
+
+[8] Manoharan, Samuel. "Patient Diet Recommendation System Using K
+Clique and Deep learning Classifiers." Journal of Artificial Intelligence 2, no.
+02 (2020): 121-130.
+
+[9] A. Qasem et al. Breast cancer mass localization based on machine
+learning. 2014 IEEE 10th International Colloquium on Signal Processing
+
+its Applications, IEEE, 2014. | ; |

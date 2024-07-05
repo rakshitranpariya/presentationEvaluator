@@ -1,0 +1,2 @@
+Affected and Normal Tumors comparison:
+Number of Benign and Malignant record re

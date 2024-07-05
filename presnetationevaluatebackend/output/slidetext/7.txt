@@ -1,0 +1,11 @@
+INPUT Pre-Processing Selecting Features
+Breast Cancer Converting character data to Defining correlations of features
+Wisconsin integer data and removing using functions and figures like pair
+(Diagnostic) Data unnecessary data. plot and heat-map.
+Set
+A ithms
+Output Algori . ,
+Using the model with Coste ann model ma |
+ie ae predict decision tree and finding their
+ope : prediction accuracy.
+Block Diagram for proposed model [2 |

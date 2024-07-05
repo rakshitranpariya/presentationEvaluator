@@ -1,0 +1,18 @@
+Algorithms:
+
+* Logistic Regression :
+
+Logistic Regression is an appropriate type of regression model when we are
+sure that our dependent variable is of binary type. Logistic regression is used
+to find the relationship between one dependent variable (which is binary in
+nature) and one or more independent variables.
+
+* Decision Tree:
+
+Decision tree is a structure where each inner node represents a test on
+attribute (such as if a coin when flipped will land on its tails or head), e
+
+its branches represents the outcome of that test or attribute and each
+
+node represents a class label (that is the decision taken after taking int
+account all the attributes). | © |

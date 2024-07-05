@@ -1,0 +1,12 @@
+Data Processing:
+
+Converting the M (Malignant) and B (Benign) in the dataset to 1 and 0 resp.
+Scaling data as we need to normalize the range of each feature.
+
+Data splitting percentage is:
+
+a. Training Data: 75% (426 records)
+
+b. Testing Data: 25% (143 records)
+
+Total number of records are 569. p

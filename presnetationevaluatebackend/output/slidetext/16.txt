@@ -1,0 +1,14 @@
+Conclusion:
+
+* We implemented two machine learning algorithms namely Decision Tree
+Classifier and Logistic Regression for prediction of breast cancer, and
+compared the accuracies of both to find which one of the two will be best
+suited for the prediction.
+
+* We came to know that Decision Tree Classifier is the best suited- algorithm
+for prediction as by using it we had almost pinpoint prediction accuracy [on
+“Breast Cancer Wisconsin (Diagnostic) Data Set”].
+
+* Hence, given the features according to that of this dataset, we can pro7i=*
+breast cancer with almost pinpoint accuracy using our Decision Tree
+Classifier algorithm.

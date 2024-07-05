@@ -1,0 +1,17 @@
+References:
+
+[1] Octa Heriana, Indah Soesanti. Tumor size classification of breast thermal image
+using fuzzy C-Means algorithm. 2015 International Conference on Radar, Antenna,
+Microwave, Electronics and Telecommunications (ICRAMET), IEEE, 2015.
+
+[2] Naresh Khuriwal, Nidhi Mishra. Breast Cancer Diagnosis Using Deep Learning
+Algorithm. 2018 International Conference on Advances in Computing,
+Communication Control and Networking (ICACCCN), IEEE, 2018.
+
+[3] Yawen Xiao, Jun Wu, Zongli Lin, Xiaodong Zhao. Breast Cancer Diagnosis Using
+an Unsupervised Feature Extraction Algorithm Based on Deep Learning. 2018 37th
+Chinese Control Conference (CCC), IEEE, 2018.
+
+[4] Erwin Halim, Pauline Phoebe Halim, Marylise Hebrard. Artificial Intelligen
+Models for Breast Cancer Early Detection. 2018 International Conference on
+Information Management and Technology (ICIMTech), IEEE, 2018.

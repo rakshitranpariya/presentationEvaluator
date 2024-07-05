@@ -1,0 +1,17 @@
+Result:
+We used a Decision tree classifier algorithm (with accuracy 95.1%) to predict
+the following results as it had slightly more accuracy than the logistic
+regression algorithm(with accuracy 94.4%).
+Actual Predicted
+e 1 1
+1 e 2
+2 e e
+3 e e
+4 e e
+138 “a “a
+139 e 2
+140 e e
+141 2 e
+142 1 i
+[143 rows x 2 columns] >
+Test values and Predicted values [2 |

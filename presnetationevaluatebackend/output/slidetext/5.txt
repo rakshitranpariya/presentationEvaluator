@@ -1,0 +1,12 @@
+Objective:
+
+* Detecting Breast cancer at an early phase will result in better
+treatment hence less harm to the patient.
+
+* Early treatment is of breast cancer is less expensive.
+
+¢ Machine learning techniques in the medical field is of great
+importance as we can predict a disease in an initial stage which can
+help us reduce the cost of medication that goes with it, help aid
+people’s health, predict mostly accurate outcomes and help upgrade
+the healthcare value and save people’s lives. 3

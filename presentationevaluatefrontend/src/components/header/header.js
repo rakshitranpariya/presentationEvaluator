@@ -7,11 +7,11 @@ const Header = () => {
       <div className="header">
         <div className="Logo">
           <img src={logo} className="LogoImage" alt="Logo" />
-          <p className="LogoTitle h3 text-black fw-bold">
+          <p className="LogoTitle h3 text-black fw-bolder">
             Presentation Evaluator
           </p>
         </div>
-        <div className="MenuOptionGroup">
+        <div className="MenuOptionGroup fw-bolder">
           <p className="MenuOption">Explore</p>
           <p className="MenuOption">About Us</p>
           <p className="MenuOption">Contact Us</p>

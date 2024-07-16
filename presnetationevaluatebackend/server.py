@@ -1,16 +1,23 @@
-from Evaluator.ContextDetection import SlidesDetector
-from Evaluator.ContextDetection import TextExtractor
-from flask import Flask, request  
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
-
+from werkzeug.utils import secure_filename
+from Evaluator.ContextDetection.ppt_to_images import convert_ppt_to_images
+from Evaluator.ContextDetection.images_to_text import extract_text_from_images
+import os
+from moviepy.editor import VideoFileClip
+import ffmpeg 
 app = Flask(__name__)
+
 CORS(app)
+UPLOAD_FOLDER = './uploaded_videos'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# media = UploadSet('media', ALL)
+# configure_uploads(app, media)
 
-
-#route
-@app.route("/main")
-def members():
-    return {"members":["Members1","Members2","Members3"]}
+IMAGES_DIRECTORY = './slides_images/'
+UPLOADED_VIDEOS_DIRECTORY = './uploaded_videos/'
+UPLOAD_FOLDER='./uploaded_videos/'
+# upload presentation
 @app.route("/upload", methods=['POST'])
 def upload_file():
     print(request.files)
@@ -20,14 +27,76 @@ def upload_file():
     if file.filename == '':
         return {"error": "No selected file"}, 400
     if file:
-        # Process the file here (e.g., saving it)
-        file.save(f"./uploaded_video/{file.filename}")
-        SlidesDetector.slidesDetector(file)
-        print("before")
-        TextExtractor.textExtraction()
-        print("after")
+        ppt_path = './uploaded_presentation/presentation.pptx'  # Replace with the path to your PowerPoint file
+       
+        slides_text_dir = './slides_text/'
+        extract_text_from_images(IMAGES_DIRECTORY, slides_text_dir)
         return {"message": f"{file.filename} uploaded successfully"}, 200
     return {"error": "An error occurred during file upload"}, 500
+
+
+@app.route('/slide/count/', methods=['GET'])
+def count_images():
+    try:
+        image_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.bmp')
+        files = os.listdir(IMAGES_DIRECTORY)
+        image_files = [file for file in files if file.lower().endswith(image_extensions)]
+        count = len(image_files)
+        return jsonify({'count': count})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+# get the related images
+@app.route('/slide/<int:index>', methods=['GET'])
+def get_slide_image(index):
+    try:
+        image_files = os.listdir(IMAGES_DIRECTORY)
+        if index < 0 or index >= len(image_files):
+            return jsonify({'error': 'Invalid index'}), 400
+        filename = image_files[index]
+        filepath = os.path.join(IMAGES_DIRECTORY, filename)
+        return send_file(filepath, mimetype='image/jpeg')  # Adjust mimetype if your images are of a different type
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/upload_video', methods=['POST'])
+def upload_video():
+    try:
+        if 'video' not in request.files:
+            app.logger.error('No video part in the request')
+            return jsonify({'error': 'No video part in the request'}), 400
+        
+        video = request.files['video']
+        # print("video data --",video.__dir__)
+        if video.filename == '':
+            app.logger.error('No selected video file')
+            return jsonify({'error': 'No selected video file'}), 400
+        
+        # Save the video file
+        filename = secure_filename(video.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        video.save(filepath)
+
+        # Convert the video to MP4
+        output_filename = os.path.splitext(filename)[0] + ".mp4"
+        output_filepath = os.path.join(app.config['UPLOAD_FOLDER'], output_filename)
+
+        try:
+            # Use ffmpeg-python to convert the video
+            ffmpeg.input(filepath).output(output_filepath, vcodec='libx264', acodec='aac').run(capture_stdout=True, capture_stderr=True)
+        except ffmpeg.Error as e:
+            app.logger.error(f'Error during video conversion: {e.stderr.decode()}')
+            return jsonify({'error': 'Video conversion failed'}), 500
+
+        # Optionally, delete the original WebM file after conversion
+        os.remove(filepath)
+        
+        # Perform any additional processing or validation here
+        return jsonify({'message': 'Video uploaded successfully', 'filename': filename}), 200
+    except Exception as e:
+        app.logger.error(f'Error occurred: {str(e)}')
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == "__main__":

@@ -3,7 +3,10 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from Evaluator.ContextDetection.ppt_to_images import convert_ppt_to_images
 from Evaluator.ContextDetection.images_to_text import extract_text_from_images
+from Evaluator.ContextDetection.audio_to_text import extract_text_from_audio
+
 import os
+import speech_recognition as sr
 from moviepy.editor import VideoFileClip
 import ffmpeg 
 app = Flask(__name__)
@@ -92,6 +95,36 @@ def upload_video():
         # Optionally, delete the original WebM file after conversion
         os.remove(filepath)
         
+        # Directory containing the video files
+        input_directory = "./uploaded_videos/"
+        output_directory = "./extracted_audio/"
+
+        # Create the output directory if it doesn't exist
+        os.makedirs(output_directory, exist_ok=True)
+
+        # Process each video file in the input directory
+        for filename in os.listdir(input_directory):
+            if filename.endswith(".mp4"):  # Check if the file is a .mp4 file
+                mp4_file = os.path.join(input_directory, filename)
+                mp3_file = os.path.join(output_directory, os.path.splitext(filename)[0] + ".mp3")
+
+                # Load the video clip
+                video_clip = VideoFileClip(mp4_file)
+
+                # Extract the audio from the video clip
+                audio_clip = video_clip.audio
+
+                # Write the audio to a separate file
+                audio_clip.write_audiofile(mp3_file)
+
+                # Close the video and audio clips
+                audio_clip.close()
+                video_clip.close()
+
+        #all mp3 into txt.
+        extract_text_from_audio()
+
+
         # Perform any additional processing or validation here
         return jsonify({'message': 'Video uploaded successfully', 'filename': filename}), 200
     except Exception as e:

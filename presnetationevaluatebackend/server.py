@@ -12,14 +12,11 @@ import ffmpeg
 app = Flask(__name__)
 
 CORS(app)
-UPLOAD_FOLDER = './uploaded_videos'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-# media = UploadSet('media', ALL)
-# configure_uploads(app, media)
 
-IMAGES_DIRECTORY = './slides_images/'
-UPLOADED_VIDEOS_DIRECTORY = './uploaded_videos/'
-UPLOAD_FOLDER='./uploaded_videos/'
+IMAGES_DIRECTORY = './slides_images'
+UPLOADED_VIDEOS_DIRECTORY = './uploaded_videos'
+UPLOAD_FOLDER='./uploaded_videos'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # upload presentation
 @app.route("/upload", methods=['POST'])
 def upload_file():
@@ -36,7 +33,6 @@ def upload_file():
         extract_text_from_images(IMAGES_DIRECTORY, slides_text_dir)
         return {"message": f"{file.filename} uploaded successfully"}, 200
     return {"error": "An error occurred during file upload"}, 500
-
 
 @app.route('/slide/count/', methods=['GET'])
 def count_images():
@@ -62,7 +58,6 @@ def get_slide_image(index):
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/upload_video', methods=['POST'])
 def upload_video():
     try:
@@ -76,25 +71,41 @@ def upload_video():
             app.logger.error('No selected video file')
             return jsonify({'error': 'No selected video file'}), 400
         
+        # Ensure the upload directory exists
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
         # Save the video file
         filename = secure_filename(video.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        
         video.save(filepath)
+     # Perform any additional processing or validation here
 
         # Convert the video to MP4
         output_filename = os.path.splitext(filename)[0] + ".mp4"
         output_filepath = os.path.join(app.config['UPLOAD_FOLDER'], output_filename)
-
+        print("I am herer")
         try:
-            # Use ffmpeg-python to convert the video
-            ffmpeg.input(filepath).output(output_filepath, vcodec='libx264', acodec='aac').run(capture_stdout=True, capture_stderr=True)
+            (
+                ffmpeg
+                .input(filepath)
+                .output(
+                    output_filepath,
+                    vcodec='libx264',    # Video codec
+                    acodec='aac',        # Audio codec
+                    vf='scale=1280:720', # Scale video to 1280x720 resolution
+                    preset='fast',       # Encoding preset for faster conversion
+                    crf=28,              # Constant Rate Factor (quality vs size, lower is better quality)
+                    b='128k'           # Audio bitrate
+                )
+                .run(capture_stdout=True, capture_stderr=True)
+            )
+            print(f"Conversion successful: {output_filepath}")
         except ffmpeg.Error as e:
-            app.logger.error(f'Error during video conversion: {e.stderr.decode()}')
-            return jsonify({'error': 'Video conversion failed'}), 500
+            print(f"Error during video conversion: {e.stderr.decode()}")
 
         # Optionally, delete the original WebM file after conversion
-        os.remove(filepath)
-        
+
         # Directory containing the video files
         input_directory = "./uploaded_videos/"
         output_directory = "./extracted_audio/"
@@ -123,14 +134,12 @@ def upload_video():
 
         #all mp3 into txt.
         extract_text_from_audio()
-
-
-        # Perform any additional processing or validation here
         return jsonify({'message': 'Video uploaded successfully', 'filename': filename}), 200
     except Exception as e:
-        app.logger.error(f'Error occurred: {str(e)}')
+        app.logger.error(f'Error occurred : {str(e)}')
         return jsonify({'error': str(e)}), 500
-
-
+    finally:
+        if os.path.exists(filepath):
+            os.remove(filepath)
 if __name__ == "__main__":
     app.run(debug=True)

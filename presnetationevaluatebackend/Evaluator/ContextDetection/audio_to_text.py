@@ -45,8 +45,12 @@ def extract_text_from_audio():
             wav_file = os.path.join(output_directory, os.path.splitext(filename)[0] + ".wav")
             txt_file = os.path.join(output_directory, os.path.splitext(filename)[0] + ".txt")
 
-            # Convert MP3 to WAV
-            convert_mp3_to_wav(mp3_file, wav_file)
+             # Convert MP3 to WAV
+            try:
+                convert_mp3_to_wav(mp3_file, wav_file)
+            except Exception as e:
+                print(f"Error converting {mp3_file} to WAV: {e}")
+                continue
 
             # Convert WAV to text
             text = convert_wav_to_text(wav_file)

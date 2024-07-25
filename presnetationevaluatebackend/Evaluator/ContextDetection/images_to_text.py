@@ -22,7 +22,7 @@ def extract_text_from_images(slides_images_dir, slides_text_dir):
             extracted_text = extract_text_from_image(image_path)
             
             # Write the extracted text to a text file in slides_text directory
-            text_file_path = os.path.join(slides_text_dir, f'slide_{slide_number}.txt')
+            text_file_path = os.path.join(slides_text_dir, f'{slide_number}.txt')
             with open(text_file_path, 'w', encoding='utf-8') as text_file:
                 text_file.write(extracted_text)
             

@@ -7,6 +7,8 @@ from Evaluator.ContextDetection.audio_to_text import extract_text_from_audio
 from Evaluator.ContextDetection.save_video_file import save_video_file
 from Evaluator.ContextDetection.convert_video_to_mp4 import convert_video_to_mp4
 from Evaluator.ContextDetection.extract_audio_from_video import extract_audio_from_video
+from Evaluator.ContextDetection.text_comparison import compare_texts
+
 import logging
 import os
 import speech_recognition as sr
@@ -29,7 +31,8 @@ def upload_file():
         return {"error": "No selected file"}, 400
     if file:
         ppt_path = './uploaded_presentation/presentation.pptx'  # Replace with the path to your PowerPoint file
-       
+        file.save(ppt_path)#save the file to the path
+        convert_ppt_to_images(ppt_path,IMAGES_DIRECTORY)
         slides_text_dir = './slides_text/'
         extract_text_from_images(IMAGES_DIRECTORY, slides_text_dir)
         return {"message": f"{file.filename} uploaded successfully"}, 200
@@ -55,7 +58,7 @@ def get_slide_image(index):
             return jsonify({'error': 'Invalid index'}), 400
         filename = image_files[index]
         filepath = os.path.join(IMAGES_DIRECTORY, filename)
-        return send_file(filepath, mimetype='image/jpeg')  # Adjust mimetype if your images are of a different type
+        return send_file(filepath, mimetype='image/jpeg')
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -80,6 +83,12 @@ def upload_video():
         logging.info(f"MP3 file path: {mp3_file_path}")
 
         extract_text_from_audio()
+        # ppt_text = "PPT Slide 1: Introduction to Climate Change What is Climate Change? Long-term change in Earth's climate Caused by natural processes and human activities Impact of Climate Change Rising global temperatures Melting polar ice caps Increased frequency of extreme weather events"
+        # audio_text = "Hello everyone, today we are going to discuss climate change. Climate change refers to the long-term alteration in Earth's climate due to various factors. It includes both natural causes, such as volcanic eruptions and changes in solar radiation, and human activities like greenhouse gas emissions and deforestation.The impacts of climate change are significant. We are seeing rising global temperatures, melting polar ice caps, and an increase in extreme weather events. These changes are affecting ecosystems and human societies worldwide."
+        # evaluation = compare_texts(ppt_text, audio_text)
+        # print(evaluation)
+        compare_texts()
+
         return jsonify({'message': 'Video uploaded successfully', 'filename': filename}), 200
     except Exception as e:
         app.logger.error(f'Error occurred : {str(e)}')

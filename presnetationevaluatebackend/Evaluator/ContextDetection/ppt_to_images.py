@@ -31,7 +31,7 @@ def convert_ppt_to_images(ppt_path, output_folder):
         os.mkdir(out_dir)
 
     for i, img in enumerate(images):
-        im_name = os.path.join(out_dir, f"img-{i}.{img_format}")
+        im_name = os.path.join(out_dir, f"slide_{i}.{img_format}")
         img.save(im_name)
 
     elapse = time.time() - start

@@ -12,7 +12,7 @@ const PptUploader = () => {
     setFile(event.target.files[0]);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { 
     event.preventDefault();
     if (file) {
       const formData = new FormData();
@@ -42,7 +42,7 @@ const PptUploader = () => {
                 // Redirect after a short delay to show 100% completion
                 setTimeout(() => {
                   window.location.href = '/PresentationRecorder';
-                }, 1000); // Increased delay to 1000 milliseconds (1 second)
+                }, 1000); 
         
        
 
@@ -50,7 +50,7 @@ const PptUploader = () => {
         console.error("Error:", error);
       }
       finally {
-        setUploading(false); // Upload finished, hide progress bar if needed
+        setUploading(false); 
       }
     } else {
       console.log("No file selected");

@@ -1,0 +1,112 @@
+/* ResultPage.css */
+.chart-canvas {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 10px;
+}
+.slide_border{
+    border: 2px solid ;
+    border-radius: 15px;
+    border-color: #007bff;
+    margin: 10px;
+    overflow: hidden;
+    transition: all 6s ease; 
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.slide-title {
+    /* color: #007bff; */
+    cursor: pointer;
+    padding: 5px;
+    transition: border-color 0.3s, padding 0.3s;
+    margin: 0px 0px 0px 20px;
+    display: flex;
+    align-items: center;
+}
+
+h3{
+    align-items: center;
+}
+.slide-title.expanded {
+    border-color: rgb(122, 168, 236);
+    padding: 10px 20px;
+}
+
+.toggle-icon {
+    transition: transform 0.3s, color 0.3s;
+    margin-left: 10px;
+}
+
+.toggle-icon.expanded {
+    /* color: #007bff; */
+    transform: rotate(180deg);
+}
+.total_title{
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(122, 168, 236);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  
+}
+.slide-image {
+    width: 200px;
+    border-radius: 20px;
+    margin: 10px 20px 10px 0px;
+    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    box-shadow:  0 0 1px rgba(0, 0, 0, 0.5);
+}
+.Warningtab {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #ff00008c;
+    gap: 5px; /* Adjust the gap between bubbles */
+    margin: 20px;
+    padding: 10px;
+    width: 400px;
+    border-radius: 25px;
+    
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.GoodSection {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(44, 187, 0, 0.664);
+    gap: 5px; /* Adjust the gap between bubbles */
+    margin: 20px;
+    width: 400px;
+    padding: 10px;
+    border-radius: 25px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+
+}
+.bubble {
+    background-color: #00000063;
+    color: white;
+    padding: 5px 10px; /* Reduced padding for smaller bubbles */
+    border-radius: 15px; /* Smaller radius for small bubbles */
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    font-size: 14px;
+}
+
+.bubble.small {
+    
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 30px;
+    padding: 3px 7px; /* Even smaller padding for more compact bubbles */
+    font-size: 11px; /* Smaller font size */
+}
+
+.bubble:hover {
+    transform: scale(1.05);
+}
+
+

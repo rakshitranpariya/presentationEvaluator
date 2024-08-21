@@ -3,6 +3,7 @@ import boto3
 import os
 import config
 # Initialize OpenAI API client
+from Evaluator.ContextDetection.store_to_awsdynamoDB import store_to_awsdynamoDB
 from openai import OpenAI
 
 client = OpenAI(
@@ -55,8 +56,7 @@ context_message = {
     output given by you should only be a list containing the score of each parameter from 0 to 100 like [content_coverage, 
     correctness, consistency_in_words, textual_cohesion, language_and_grammar] show only the numbers. and follow the following rules
     Rules:
-    1) give 0 in all aspect if any of the text is empty.
-    2) compare the audio-text to slide-text how well does it satisfy the given parameter.
+    1) compare the audio-text to slide-text how well does it satisfy the given parameter.
     """
 }
 
@@ -77,29 +77,18 @@ def evaluate_presentation(slide_text, audio_text):
     scores = list(map(int, output_text.strip('[]').split(',')))
     return scores
 
-def save_to_dynamodb(item_id, scores):
-    print("item_id", item_id)
-    print("scores",scores)
-    # table.put_item(
-    #     Item={
-    #         'id': item_id,
-    #         'content_coverage': scores[0],
-    #         'correctness': scores[1],
-    #         'consistency_in_words': scores[2],
-    #         'textual_cohension': scores[3],
-    #         'language_and_grammar': scores[4]
-    #     }
-    # )
 
 def compare_texts():
     slide_dir = './slides_text'
     audio_dir = './transcribed_texts'
-    
+    count =1
     for slide_file in os.listdir(slide_dir):
+        print("count:",count)
+        count = count + 1
+
         if slide_file.startswith('slide_') and slide_file.endswith('.txt'):
             slide_num = slide_file.split('_')[1].split('.')[0]
-
-
+            print("slide_num:", slide_num )
             audio_file = None
             for f in os.listdir(audio_dir):
                 if f.startswith(slide_num + '_'):
@@ -112,11 +101,14 @@ def compare_texts():
         
                 with open(slide_path, 'r') as slide_f, open(audio_path, 'r') as audio_f:
                     slide_text = slide_f.read()
-                    print(slide_text)
+                    print("slide_text:",slide_text)
                     audio_text = audio_f.read()
-                    print(audio_text)
+                    print("audio_text:",audio_text)
                 scores = evaluate_presentation(slide_text, audio_text)
-                save_to_dynamodb(slide_num, scores)
+
+                store_to_awsdynamoDB(slide_num, scores)
                 print(f'Saved scores for slide {slide_num}: {scores}')
+                
+
 
 

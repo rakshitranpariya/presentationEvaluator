@@ -1,14 +1,27 @@
 import os
 import sys
+import shutil
 import time
 import subprocess
 from pdf2image import convert_from_bytes
+
+def empty_directory(directory):
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
 
 def convert_ppt_to_images(ppt_path, output_folder):
     img_format = "jpg"
     out_dir = output_folder
     pptfile_name = ppt_path
 
+    empty_directory(out_dir)
     start = time.time()
     print("Start converting your PPT to {} images.".format(img_format))
 

@@ -44,12 +44,18 @@ html, body {
   height: 60vh;
   justify-content: center;
 }
+.right-container{
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
 .webcam-feed {
   border-radius: 10px;
   width: 100%;
- 
-  object-fit: cover;
+  height: fit-content;
 }
 
 .preview_area{

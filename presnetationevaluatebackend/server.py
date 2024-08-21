@@ -8,6 +8,10 @@ from Evaluator.ContextDetection.save_video_file import save_video_file
 from Evaluator.ContextDetection.convert_video_to_mp4 import convert_video_to_mp4
 from Evaluator.ContextDetection.extract_audio_from_video import extract_audio_from_video
 from Evaluator.ContextDetection.text_comparison import compare_texts
+from Evaluator.ContextDetection.combine_video import combine_video
+
+import boto3
+import config
 
 import logging
 import os
@@ -20,10 +24,13 @@ CORS(app)
 IMAGES_DIRECTORY = './slides_images'
 UPLOADED_VIDEOS_DIRECTORY = './uploaded_videos'
 EXTRACTED_AUDIO_DIRCETORY = './extracted_audio'
+PRESENTATION_PATH = './uploaded_presentation/presentation.pptx'
+
 # upload presentation
 @app.route("/upload", methods=['POST'])
 def upload_file():
-    print(request.files)
+    # print(request.files)
+    print("Hey upload was called")
     if 'file' not in request.files:
         return {"error": "No file part"}, 400
     file = request.files['file']
@@ -31,10 +38,9 @@ def upload_file():
         return {"error": "No selected file"}, 400
     if file:
         ppt_path = './uploaded_presentation/presentation.pptx'  # Replace with the path to your PowerPoint file
-        file.save(ppt_path)#save the file to the path
-        convert_ppt_to_images(ppt_path,IMAGES_DIRECTORY)
-        slides_text_dir = './slides_text/'
-        extract_text_from_images(IMAGES_DIRECTORY, slides_text_dir)
+        file.save(PRESENTATION_PATH)#save the file to the path
+        convert_ppt_to_images(PRESENTATION_PATH,IMAGES_DIRECTORY)
+
         return {"message": f"{file.filename} uploaded successfully"}, 200
     return {"error": "An error occurred during file upload"}, 500
 
@@ -77,23 +83,51 @@ def upload_video():
 
         save_video_operation = save_video_file(video, UPLOADED_VIDEOS_DIRECTORY)
         logging.info(f"Save video operation result: {save_video_operation}")
-        mp4_file_path = convert_video_to_mp4(UPLOADED_VIDEOS_DIRECTORY, filename)
-        logging.info(f"MP4 file path: {mp4_file_path}")
-        mp3_file_path = extract_audio_from_video(mp4_file_path, EXTRACTED_AUDIO_DIRCETORY)
-        logging.info(f"MP3 file path: {mp3_file_path}")
 
-        extract_text_from_audio()
-        # ppt_text = "PPT Slide 1: Introduction to Climate Change What is Climate Change? Long-term change in Earth's climate Caused by natural processes and human activities Impact of Climate Change Rising global temperatures Melting polar ice caps Increased frequency of extreme weather events"
-        # audio_text = "Hello everyone, today we are going to discuss climate change. Climate change refers to the long-term alteration in Earth's climate due to various factors. It includes both natural causes, such as volcanic eruptions and changes in solar radiation, and human activities like greenhouse gas emissions and deforestation.The impacts of climate change are significant. We are seeing rising global temperatures, melting polar ice caps, and an increase in extreme weather events. These changes are affecting ecosystems and human societies worldwide."
-        # evaluation = compare_texts(ppt_text, audio_text)
-        # print(evaluation)
-        compare_texts()
-
+        
         return jsonify({'message': 'Video uploaded successfully', 'filename': filename}), 200
     except Exception as e:
         app.logger.error(f'Error occurred : {str(e)}')
         return jsonify({'error': str(e)}), 500
-   
+    
+@app.route('/start_processing', methods=['GET'])
+def start_processing():
+    slides_text_dir = './slides_text/'
+    extract_text_from_images(IMAGES_DIRECTORY, slides_text_dir)
+    convert_video_to_mp4(UPLOADED_VIDEOS_DIRECTORY)
+    extract_audio_from_video(UPLOADED_VIDEOS_DIRECTORY, EXTRACTED_AUDIO_DIRCETORY)
+    extract_text_from_audio()
+    compare_texts()
+    return jsonify({'message': 'Processing started'}), 200  
+
+@app.route('/get_all_scores', methods=['POST'])
+def get_all_scores():
+    dynamodb = boto3.resource(
+        'dynamodb',
+        region_name='us-east-2',
+        aws_access_key_id=config.ACCESS_KEY,
+        aws_secret_access_key=config.SECRET_ACCESS_KEY
+    )
+    table = dynamodb.Table('ContentResult')
+    
+    try:
+        response = table.scan()
+        items = response.get('Items', [])
+        return jsonify(items), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500 
+    
+@app.route('/combine_videos', methods=['POST'])
+def combine_videos():
+    try:
+        output_path = combine_video()
+        return send_file(output_path, as_attachment=True)
+
+    except Exception as e:
+        logging.error(f"Error combining videos: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -4,6 +4,8 @@ import "./global.css";
 import Header from "../components/header/header";
 import Footer from "../components/footer/footer";
 import Webcam from "react-webcam";
+import { useNavigate } from 'react-router-dom';
+
 
 const PresentationRecorder = () => {
   const [count, setCount] = useState(0); // Total number of images
@@ -11,10 +13,11 @@ const PresentationRecorder = () => {
   const [currentImage, setCurrentImage] = useState(null); // URL of the current image
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState(null);
-  // const [recordedChunks, setRecordedChunks] = useState([]);
   const recordedChunksRef = useRef([]);
   const webcamRef = useRef(null);
-  
+  const [canBeSubmittedStart, setCanBeSubmittedStart] = useState(false); //new condition
+  const [canBeSubmittedEnd, setCanBeSubmittedEnd] = useState(false); //new condition
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchImageCount = async () => {
       try {
@@ -63,7 +66,24 @@ const prevImage = () => {
     prevIndex === 0 ? count - 1 : prevIndex - 1
 );
 };
-
+const submitPresentation = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/start_processing', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response.ok) {
+      throw new Error('Failed to start processing');
+    }
+    const data = await response.json();
+    console.log('Processing started successfully:', data);
+    navigate('/ResultPage');
+  } catch (error) {
+    console.error('Error starting processing:', error); 
+  }
+}
 const startRecording = () => {
   if (webcamRef.current && webcamRef.current.video) {
     console.log("Webcam video element found:", webcamRef.current.video);
@@ -110,6 +130,7 @@ const startRecording = () => {
       setMediaRecorder(recorder);
       recorder.start();
       setIsRecording(true);
+      setCanBeSubmittedStart(true);
     } else {
       console.log("Webcam video element not found");
     }
@@ -119,6 +140,7 @@ const startRecording = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
+      setCanBeSubmittedEnd(true);
     }
   };
 
@@ -191,7 +213,7 @@ const startRecording = () => {
             </div>
           </div>
 
-          <div className="col-lg-4 col-12">
+          <div className="col-lg-4 col-12 right-container">
             <Webcam
               className="webcam-feed"
               ref={webcamRef}
@@ -202,6 +224,15 @@ const startRecording = () => {
                 facingMode: "user",
               }}
             />
+            <div className="buttonsSection">
+              <button
+                className="btn btn-primary buttons"
+                onClick={submitPresentation}
+                disabled={currentImageIndex !== count - 1 || !canBeSubmittedStart || !canBeSubmittedEnd }  
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

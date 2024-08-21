@@ -1,8 +1,22 @@
 import os
 import pytesseract
-from PIL import Image
+import shutil
 
+from PIL import Image
+def empty_directory(directory):
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print(f"Failed to delete {file_path}. Reason: {e}")
+            
 def extract_text_from_images(slides_images_dir, slides_text_dir):
+    if os.path.exists(slides_text_dir):
+        empty_directory(slides_text_dir)
     # Ensure the output directory exists
     os.makedirs(slides_text_dir, exist_ok=True)
 

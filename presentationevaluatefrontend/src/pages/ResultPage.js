@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Doughnut } from "react-chartjs-2";
+import "./global.css";
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement } from "chart.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -79,7 +80,14 @@ const ResultPage = () => {
     }
 
     if (scoresList.length === 0) {
-        return <div>Loading...</div>;
+        return (
+            <div className="spinner-container">
+                <div className="spinner-grow text-primary" role="status">
+                    <span className="sr-only">Loading...</span>
+                </div>
+                <div>Please Wait for 4-5 Minutes.</div>
+            </div>
+        );
     }
 
     const sortedScoresList = [...scoresList].sort((a, b) => a.slide_id - b.slide_id);
@@ -107,9 +115,9 @@ const ResultPage = () => {
     };
 
     return (
-        <div>
+        <div className="background">
             <div className="header-container">
-                <h2 className=" text-primary mb-4 p-3 bg-light border-primary ">
+                <h2 className="text-black p-3 border-primary">
                     Results for All Slides
                 </h2>
                 <button onClick={handleDownloadPresentation} className="btn btn-primary download-button">
@@ -169,7 +177,7 @@ const ResultPage = () => {
                         )}
                     </div>
                     {expandedSlides.includes(scores.slide_id) && (
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems:'center', justifyContent: 'center', padding:"15px"}}>
+                        <div className="chart-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems:'center', justifyContent: 'center', padding:"15px"}}>
                             <div>
                                 <Doughnut
                                     data={createChartData('Content Coverage', scores.content_coverage)}

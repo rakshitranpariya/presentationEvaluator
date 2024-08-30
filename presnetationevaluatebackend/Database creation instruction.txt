@@ -1,0 +1,21 @@
+Pasting the below detail of the tuple in DynamoDB in chatGPT would give you the information regarding the structure of the table.
+{
+  "slide_id": {
+    "S": "2"
+  },
+  "consistency_in_words": {
+    "N": "0"
+  },
+  "content_coverage": {
+    "N": "20"
+  },
+  "correctness": {
+    "N": "0"
+  },
+  "language_and_grammar": {
+    "N": "0"
+  },
+  "textual_cohesion": {
+    "N": "0"
+  }
+}
